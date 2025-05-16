@@ -1,0 +1,251 @@
+@model List<TodoMvcApp.Models.TodoItem>
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+<h1>TododoT</h1>
+
+<!-- Add Button -->
+<p>
+    <a asp-action="Add" class="btn">New TododoT</a>
+    <a href="/Todo/Hidden" class="btn">Hidden TododoT</a>
+</p>
+
+<form asp-action="Filter" method="get" class="filter-form">
+    <label>Category:</label>
+    <select name="category" class="filter-select">
+        <option value="">All</option>
+        <option value="Academic">Academic</option>
+        <option value="Health">Health</option>
+        <option value="Home">Home</option>
+        <option value="Personal">Personal</option>
+        <option value="Work">Work</option>
+    </select>
+
+    <label>Priority:</label>
+    <select name="priority" class="filter-select">
+        <option value="">All</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+    </select>
+
+    <button type="submit" class="btn">Filter</button>
+    <a href="/Todo" class="clear-link">Clear</a>
+</form>
+
+<div class="sorting-options">
+    <label>Sort By:</label>
+
+    <a asp-action="Sort" asp-route-sortBy="title" asp-route-order="asc" class="btn">TododoT: A-Z</a>
+    <a asp-action="Sort" asp-route-sortBy="title" asp-route-order="desc" class="btn">TododoT: Z-A</a>
+
+    <a asp-action="Sort" asp-route-sortBy="category" asp-route-order="asc" class="btn">Category: A-Z</a>
+    <a asp-action="Sort" asp-route-sortBy="category" asp-route-order="desc" class="btn">Category: Z-A</a>
+
+    <a asp-action="Sort" asp-route-sortBy="priority" asp-route-order="asc" class="btn">High Priority</a>
+    <a asp-action="Sort" asp-route-sortBy="priority" asp-route-order="desc" class="btn">Low Priority</a>
+
+    <a asp-action="Sort" asp-route-sortBy="status" asp-route-order="asc" class="btn">Not Done</a>
+    <a asp-action="Sort" asp-route-sortBy="status" asp-route-order="desc" class="btn">Done</a>
+</div>
+
+<!-- Display the to-do list -->
+<table>
+    <thead>
+        <tr>
+            <th>TododoT</th>
+            <th>Category</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Actions</h>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.Category</td>
+                <td>@item.Priority</td>
+                <td>@(item.IsDone ? "✔️ Done" : "❌ Not Done")</td>
+                <td>
+                    <form asp-action="ToggleDone" method="post">
+                        <input type="hidden" name="id" value="@item.Id" />
+                        <button type="submit" class="btn @(item.IsDone ? "btn-red" : "btn-green")">
+                            @(item.IsDone ? "Mark as Not Done" : "Mark as Done")
+                        </button>
+                    </form>
+
+                    <form asp-action="Hide" asp-controller="Todo" method="post" style="display:inline">
+                        <input type="hidden" name="id" value="@item.Id" />
+                        <button type="submit" class="btn btn-grey">Hide</button>
+                    </form>
+
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-yellow">Edit</a>
+
+                    <form method="post" asp-action="Delete" asp-controller="Todo" style="display:inline">
+                        <input type="hidden" name="id" value="@item.Id" />
+                        <button type="submit" class="btn btn-red" onclick="return confirm('Are you sure you want to delete this item?');">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin-top: 20px;
+    }
+
+    thead {
+        background-color: #007acc;
+        color: white;
+        text-align: left;
+    }
+
+    th, td {
+        padding: 12px 15px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    tbody tr:hover {
+        background-color: #f1faff;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    button {
+        background-color: #007acc;
+        border: none;
+        color: white;
+        padding: 6px 10px;
+        margin: 2px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #005f99;
+    }
+
+    form {
+        display: inline;
+    }
+
+    a {
+        color: #007acc;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    a:hover {
+        text-decoration: none;
+    }
+
+    select {
+        padding: 8px 16px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: 1px solid #007acc;
+        background-color: #007acc;
+        color: white;
+        cursor: pointer;
+        margin-right: 10px; /* space between dropdowns */
+        min-width: 150px; /* make it wider */
+        appearance: none; /* removes default arrow on some browsers */
+    }
+
+    select option {
+        color: black; /* option text color */
+        background-color: white;
+    }
+
+    /* Add and Hidden Button */
+    .btn {
+        padding: 8px 16px;
+        background-color: #007acc;
+        color: white;
+        text-decoration: none;
+        border: none;
+        border-radius: 5px;
+        margin-right: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        display: inline-block;
+        transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+        background-color: #005fa3;
+        color: white;
+    }
+
+    .filter-form {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+    }
+
+    /* Override for Category and Priority dropdowns */
+    .filter-select {
+        background-color: white !important;
+        color: black !important;
+        border: 1px solid #ccc !important;
+        cursor: pointer;
+        appearance: none;
+    }
+
+    .sorting-options {
+        margin-bottom: 20px;
+    }
+
+    .sorting-options label {
+        margin-right: 10px;
+    }
+
+    .btn-green {
+        background-color: #28a745; /* green */
+    }
+
+    .btn-green:hover {
+        background-color: #218838;
+    }
+
+    .btn-red {
+        background-color: #dc3545; /* red */
+    }
+
+    .btn-red:hover {
+        background-color: #c82333;
+    }
+
+    .btn-grey {
+        background-color: #6c757d; /* grey */
+    }
+
+    .btn-grey:hover {
+        background-color: #5a6268;
+    }
+
+    .btn-yellow {
+        background-color: #ffc107; /* yellow */
+        color: black;
+    }
+
+    .btn-yellow:hover {
+        background-color: #e0a800;
+        color: black;
+    }
+</style>

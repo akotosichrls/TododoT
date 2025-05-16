@@ -1,0 +1,84 @@
+@model TodoMvcApp.Models.TodoItem
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit TododoT</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label asp-for="Title">TododoT</label>
+        <input asp-for="Title" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Category">Category</label>
+        <select asp-for="Category" class="form-control">
+            <option value="Academic">Academic</option>
+            <option value="Work">Work</option>
+            <option value="Health">Health</option>
+            <option value="Personal">Personal</option>
+            <option value="Home">Home</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Priority">Priority</label>
+        <select asp-for="Priority" class="form-control">
+            <option value="1">1 (High)</option>
+            <option value="2">2 (Medium)</option>
+            <option value="3">3 (Low)</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Edit</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+<style>
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 600;
+    }
+
+    .btn-primary {
+        background-color: #007acc;
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+    }
+
+    .btn-primary:hover {
+        background-color: #005f99;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+        margin-left: 10px;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+</style>

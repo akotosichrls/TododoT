@@ -1,0 +1,92 @@
+@model TodoMvcApp.Models.TodoItem
+
+@{
+    ViewData["Title"] = "Add";
+}
+
+<h2>New TododoT</h2>
+
+<form method="post" asp-action="Add">
+    <div class="form-group">
+        <label>TododoT:</label>
+        <input asp-for="Title" required class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Category:</label>
+        <select asp-for="Category" required class="form-control">
+            <option value="">-- Select Category --</option>
+            <option>Academic</option>
+            <option>Health</option>
+            <option>Home</option>
+            <option>Personal</option>
+            <option>Work</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="Priority">Priority:</label>
+        <select asp-for="Priority" class="form-control" required>
+            <option value="">-- Select Priority --</option>
+            <option value="1">1 (High)</option>
+            <option value="2">2 (Medium)</option>
+            <option value="3">3 (Low)</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Add</button>
+    <a asp-action="Index" class="btn btn-secondary">Back</a>
+</form>
+
+<style>
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 600;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 8px 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+
+    .btn-primary {
+        background-color: #007acc;
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+    }
+
+    .btn-primary:hover {
+        background-color: #005f99;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+        padding: 8px 16px;       /* same padding as primary */
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;         /* same font size */
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+        margin-left: 10px;
+        display: inline-block;
+        line-height: normal;     /* ensure consistent height */
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+</style>

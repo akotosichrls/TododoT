@@ -1,0 +1,117 @@
+@model List<TodoItem>
+
+@{
+    ViewData["Title"] = "Hidden";
+}
+
+<h2>Hidden TododoT</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>TododoT</th>
+            <th>Category</th>
+            <th>Priority</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.Category</td>
+                <td>@item.Priority</td>
+                <td>
+                    <!-- Unhide Button -->
+                    <form asp-action="Unhide" method="post" style="display:inline">
+                        <input type="hidden" name="id" value="@item.Id" />
+                        <button type="submit" class="btn btn-grey">Unhide</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p>
+    <a href="/Todo/Index" class="btn">Back</a>
+</p>
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin-top: 20px;
+    }
+
+    table button.btn {
+        padding-top: 4px;
+        padding-bottom: 4px;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    thead {
+        background-color: #007acc;
+        color: white;
+        text-align: left;
+    }
+
+    th, td {
+        padding: 12px 15px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    tbody tr:hover {
+        background-color: #f1faff;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    button {
+        background-color: #007acc;
+        border: none;
+        color: white;
+        padding: 6px 10px;
+        margin: 2px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #005f99;
+    }
+
+    .btn {
+        padding: 8px 16px;
+        background-color: #007acc;
+        color: white;
+        text-decoration: none;
+        border: none;
+        border-radius: 5px;
+        margin-top: 15px;
+        font-size: 16px;
+        cursor: pointer;
+        display: inline-block;
+        transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+        background-color: #005fa3;
+        color: white;
+    }
+
+    .btn-grey {
+        background-color: #6c757d;
+    }
+
+    .btn-grey:hover {
+        background-color: #5a6268;
+    }
+</style>
