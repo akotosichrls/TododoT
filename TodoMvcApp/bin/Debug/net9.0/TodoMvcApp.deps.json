@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v9.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v9.0": {
+      "TodoMvcApp/1.0.0": {
+        "runtime": {
+          "TodoMvcApp.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "TodoMvcApp/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

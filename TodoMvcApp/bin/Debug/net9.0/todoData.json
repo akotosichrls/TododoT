@@ -1,0 +1,90 @@
+[
+  {
+    "Id": 1,
+    "Title": "Review ADET",
+    "Category": "Academic",
+    "Priority": 1,
+    "IsDone": true,
+    "IsHidden": false
+  },
+  {
+    "Id": 2,
+    "Title": "Review IAS",
+    "Category": "Academic",
+    "Priority": 1,
+    "IsDone": true,
+    "IsHidden": false
+  },
+  {
+    "Id": 3,
+    "Title": "Clean Living Room",
+    "Category": "Home",
+    "Priority": 2,
+    "IsDone": false,
+    "IsHidden": false
+  },
+  {
+    "Id": 4,
+    "Title": "Wash the Dishes",
+    "Category": "Home",
+    "Priority": 2,
+    "IsDone": false,
+    "IsHidden": false
+  },
+  {
+    "Id": 5,
+    "Title": "Clean Nails",
+    "Category": "Personal",
+    "Priority": 2,
+    "IsDone": true,
+    "IsHidden": true
+  },
+  {
+    "Id": 6,
+    "Title": "Throw Garbage",
+    "Category": "Home",
+    "Priority": 3,
+    "IsDone": true,
+    "IsHidden": true
+  },
+  {
+    "Id": 7,
+    "Title": "Input Data Worksheet",
+    "Category": "Work",
+    "Priority": 2,
+    "IsDone": false,
+    "IsHidden": false
+  },
+  {
+    "Id": 8,
+    "Title": "Drink Vitamins",
+    "Category": "Health",
+    "Priority": 1,
+    "IsDone": true,
+    "IsHidden": false
+  },
+  {
+    "Id": 9,
+    "Title": "Revise Paper in Capstone",
+    "Category": "Academic",
+    "Priority": 1,
+    "IsDone": false,
+    "IsHidden": false
+  },
+  {
+    "Id": 10,
+    "Title": "Buy Face Wash",
+    "Category": "Personal",
+    "Priority": 3,
+    "IsDone": false,
+    "IsHidden": false
+  },
+  {
+    "Id": 11,
+    "Title": "Buy Groceries",
+    "Category": "Personal",
+    "Priority": 2,
+    "IsDone": false,
+    "IsHidden": false
+  }
+]
