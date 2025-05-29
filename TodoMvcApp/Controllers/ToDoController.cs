@@ -9,16 +9,12 @@ namespace TodoMvcApp.Controllers
 {
     public class TodoController : Controller
     {
-        private static readonly string dataFilePath = "todoData.json";
-        
-        // In-memory list to store todo items
-        private static List<TodoItem> todoList = new List<TodoItem>();
-
         // Display the list
         public IActionResult Index()
         {
-            // Only show items that are not hidden
-            var visibleItems = todoList.Where(item => !item.IsHidden).ToList();
+            var visibleItems = _context.TodoItem
+                         .Where(item => !item.IsHidden)
+                         .ToList();
             return View(visibleItems);
         }
 
@@ -33,67 +29,61 @@ namespace TodoMvcApp.Controllers
         [HttpPost]
         public IActionResult Add(TodoItem newItem)
         {
-            // Assign a unique ID manually since we have no DB
-            newItem.Id = todoList.Count > 0 ? todoList.Max(i => i.Id) + 1 : 1;
-
-            // Default values (if needed)
             newItem.IsDone = false;
             newItem.IsHidden = false;
 
-            todoList.Add(newItem);
-            SaveData();
+            _context.TodoItem.Add(newItem);
+            _context.SaveChanges();
+
             return RedirectToAction("Index");
         }
 
         [HttpPost]
         public IActionResult ToggleDone(int id)
         {
-            var item = todoList.FirstOrDefault(t => t.Id == id);
+            var item = _context.TodoItem.Find(id);
             if (item != null)
             {
                 item.IsDone = !item.IsDone;
-                SaveData();
+                _context.SaveChanges();
             }
-
             return RedirectToAction("Index");
         }
 
         [HttpPost]
         public IActionResult Hide(int id)
         {
-            var item = todoList.FirstOrDefault(t => t.Id == id);
+            var item = _context.TodoItem.Find(id);
             if (item != null)
             {
                 item.IsHidden = true;
-                SaveData();
+                _context.SaveChanges();
             }
-
             return RedirectToAction("Index");
         }
 
         public IActionResult Hidden()
         {
-            var hiddenItems = todoList.Where(item => item.IsHidden).ToList();
+            var hiddenItems = _context.TodoItem.Where(item => item.IsHidden).ToList();
             return View(hiddenItems);
         }
 
         [HttpPost]
         public IActionResult Unhide(int id)
         {
-            var item = todoList.FirstOrDefault(t => t.Id == id);
+            var item = _context.TodoItem.Find(id);
             if (item != null)
             {
                 item.IsHidden = false;
-                SaveData();
+                _context.SaveChanges();
             }
-
             return RedirectToAction("Hidden");
         }
 
         [HttpGet]
         public IActionResult Filter(string category, int? priority)
         {
-            var filteredItems = todoList.Where(item => !item.IsHidden);
+            var filteredItems = _context.TodoItem.Where(item => !item.IsHidden);
 
             if (!string.IsNullOrEmpty(category))
             {
@@ -111,48 +101,26 @@ namespace TodoMvcApp.Controllers
         [HttpPost]
         public IActionResult Delete(int id)
         {
-            var item = todoList.FirstOrDefault(i => i.Id == id);
+            var item = _context.TodoItem.Find(id);
             if (item != null)
             {
-                todoList.Remove(item);
-                SaveData();
+                _context.TodoItem.Remove(item);
+                _context.SaveChanges();
             }
-
             return RedirectToAction("Index");
         }
 
-        private static void SaveData()
-        {
-            var options = new JsonSerializerOptions
-            {
-                WriteIndented = true // 👈 This enables line breaks and indentation
-            };
+        private readonly AppDbContext _context;
 
-            string json = JsonSerializer.Serialize(todoList, options);
-            System.IO.File.WriteAllText(dataFilePath, json);
-        }
-
-        private static void LoadData()
+        public TodoController(AppDbContext context)
         {
-            if (System.IO.File.Exists(dataFilePath))
-            {
-                var json = System.IO.File.ReadAllText(dataFilePath);
-                todoList = JsonSerializer.Deserialize<List<TodoItem>>(json) ?? new List<TodoItem>();
-            }
-        }
-
-        public TodoController()
-        {
-            if (todoList.Count == 0)
-            {
-                LoadData();
-            }
+            _context = context;
         }
 
         [HttpGet]
         public IActionResult Sort(string sortBy, string order)
         {
-            var items = todoList.Where(t => !t.IsHidden);
+            var items = _context.TodoItem.Where(t => !t.IsHidden);
 
             switch (sortBy)
             {
@@ -177,7 +145,7 @@ namespace TodoMvcApp.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var item = todoList.FirstOrDefault(t => t.Id == id && !t.IsHidden);
+            var item = _context.TodoItem.FirstOrDefault(t => t.Id == id && !t.IsHidden);
             if (item == null)
                 return NotFound();
 
@@ -188,16 +156,15 @@ namespace TodoMvcApp.Controllers
         [HttpPost]
         public IActionResult Edit(int id, TodoItem updated)
         {
-            var item = todoList.FirstOrDefault(t => t.Id == id && !t.IsHidden);
+            var item = _context.TodoItem.FirstOrDefault(t => t.Id == id && !t.IsHidden);
             if (item == null)
                 return NotFound();
 
-            // Update fields
             item.Title = updated.Title;
             item.Category = updated.Category;
             item.Priority = updated.Priority;
 
-            SaveData();
+            _context.SaveChanges();
 
             return RedirectToAction("Index");
         }
